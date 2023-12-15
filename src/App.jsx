@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Tree from "react-d3-tree";
 import { getFullTree } from "./utils";
 
@@ -6,20 +6,9 @@ import { getFullTree } from "./utils";
 // Note how deeper levels are defined recursively via the `children` property.
 
 export default function OrgChartTree() {
-  const treeContainer = useRef(null);
   const [depthFactor, setDepthFactor] = useState(200);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
-
-  useEffect(() => {
-    if (treeContainer.current) {
-      setDimensions({
-        width: treeContainer.current.clientWidth,
-        height: treeContainer.current.clientHeight,
-      });
-    }
-  }, [treeContainer]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -43,7 +32,6 @@ export default function OrgChartTree() {
     );
   return (
     <div
-      ref={treeContainer}
       id="treeWrapper"
       style={{ width: "100svw", height: "100svh", position: "relative" }}
     >
@@ -108,7 +96,6 @@ export default function OrgChartTree() {
       <Tree
         data={data}
         pathFunc="step"
-        dimensions={dimensions}
         depthFactor={depthFactor}
         initialDepth={1}
       />
